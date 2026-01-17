@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Preeti's Clothes Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Poppins',sans-serif;background:#f2f2f2;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;}
+.signup-box{background:white;padding:40px;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,0.15);text-align:center;}
+input{width:90%;padding:10px;margin:10px 0;border-radius:8px;border:1px solid #ddd;}
+button{background:#ff69b4;color:white;border:none;padding:10px;border-radius:10px;cursor:pointer;margin-top:10px;}
+button:hover{background:#ff1493;transform:translateY(-2px);}
+a{color:#ff1493;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="signup-box">
+<h2>Sign Up</h2>
+<input type="text" id="username" placeholder="Username" required><br>
+<input type="password" id="password" placeholder="Password" required><br>
+<button onclick="signup()">Sign Up</button>
+<p>Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+function signup(){
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if(username && password){
+        // Save username in localStorage
+        localStorage.setItem("user", username);
+        alert("Sign Up Successful!");
+        window.location.href="index.html"; // redirect to dashboard
+    } else {
+        alert("Enter username and password!");
+    }
+}
+</script>
+</body>
+</html>
+
+
+

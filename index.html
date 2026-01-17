@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Preeti’s Clothes Store | Women & Mens Fashion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Poppins',sans-serif;background:#f6f6f6;color:#222}
+
+    /* HEADER */
+    header{background:linear-gradient(90deg,#ff3f6c,#ff8fa3);padding:18px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    header h1{color:white;font-size:28px;letter-spacing:1px}
+    nav a{color:white;margin:0 12px;text-decoration:none;font-weight:600;cursor:pointer;transition:.3s}
+    nav a:hover{border-bottom:2px solid white}
+    .owner{color:white;font-size:14px;opacity:.95}
+
+    /* HERO */
+    .hero{height:420px;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url('https://images.unsplash.com/photo-1483985988355-763728e1935b') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center}
+    .hero h2{font-size:48px;font-weight:700}
+    .hero p{margin-top:10px;font-size:20px}
+
+    /* CONTAINER */
+    .container{padding:40px}
+    .section{background:white;border-radius:18px;padding:30px;margin-bottom:35px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    .hidden{display:none}
+
+    /* SEARCH */
+    .search-box{text-align:center;margin-bottom:35px}
+    .search-box input{width:65%;padding:14px 20px;border-radius:30px;border:1px solid #ddd;font-size:17px;outline:none;transition:.3s}
+    .search-box input:focus{border-color:#ff3f6c;box-shadow:0 0 8px rgba(255,63,108,.3)}
+
+    /* PRODUCTS */
+    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:35px}
+    .card{border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.12);transition:.35s;background:white;display:flex;flex-direction:column}
+    .card:hover{transform:translateY(-10px)}
+    .card img{width:100%;height:300px;object-fit:cover;transition:.4s}
+    .card img:hover{transform:scale(1.05)}
+    .info{text-align:center;padding:18px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+    .info h3{font-size:18px;margin-bottom:5px}
+    .price{color:#ff3f6c;font-weight:700;font-size:19px}
+    .info button{margin:6px;background:#ff3f6c;color:white;border:none;padding:10px 15px;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s}
+    .info button:hover{background:#e7335e}
+
+    /* CART & WISHLIST */
+    ul{list-style:none;margin-top:10px;padding-left:0}
+    li{padding:8px 0;border-bottom:1px solid #eee}
+    li:last-child{border:none}
+    li:hover{background:#fff0f5}
+
+    /* PAYMENT */
+    .pay-box label{display:block;margin:12px 0;font-weight:500}
+    .pay-box button{margin-top:10px;background:#28a745;color:white;border:none;padding:10px 12px;border-radius:6px;font-weight:600;cursor:pointer;transition:.3s}
+    .pay-box button:hover{background:#218838}
+
+    /* FOOTER */
+    footer{background:#111;color:white;text-align:center;padding:25px;font-size:14px;margin-top:20px}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Preeti’s Clothes Store</h1>
+  <nav>
+    <a onclick="showSection('home')">Home</a>
+    <a onclick="showSection('signup')">Sign Up</a>
+    <a onclick="showSection('login')">Login</a>
+    <a onclick="showSection('account')">Account</a>
+    <a onclick="showSection('wishlist')">Wishlist</a>
+    <a onclick="showSection('cart')">Cart</a>
+    <a onclick="showSection('orders')">Orders</a>
+  </nav>
+  <div class="owner">Owner: Pratibha Kengar</div>
+</header>
+
+<div class="hero">
+  <h2>Women & Mens Fashion Redefined</h2>
+  <p>Style • Elegance • Confidence</p>
+</div>
+
+<div class="container">
+
+  <div id="home" class="section">
+    <div class="search-box">
+      <input placeholder="Search women fashion..." onkeyup="searchProduct(this.value)">
+    </div>
+    <div class="products" id="product-list"></div>
+  </div>
+
+  <div id="signup" class="section hidden">
+    <h2>Create Account</h2><br>
+    <input placeholder="Username" id="signup-username"><br><br>
+    <input type="password" placeholder="Password" id="signup-password"><br><br>
+    <button onclick="signup()">Register</button>
+  </div>
+
+  <div id="login" class="section hidden">
+    <h2>Login</h2><br>
+    <input placeholder="Username" id="login-username"><br><br>
+    <input type="password" placeholder="Password" id="login-password"><br><br>
+    <button onclick="login()">Login</button>
+   
+  </div>
+
+  <div id="account" class="section hidden">
+    <h2>My Account</h2>
+    <p id="user-info">Not logged in</p><br>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div id="wishlist" class="section hidden">
+    <h2>Wishlist</h2>
+    <ul id="wish-items"></ul>
+  </div>
+
+  <div id="cart" class="section hidden">
+    <h2>Shopping Cart</h2>
+    <ul id="cart-items"></ul>
+    <h3>Total: ₹<span id="total">0</span></h3>
+    <div class="pay-box">
+      <h3>Payment Options</h3>
+      <label><input type="radio" name="pay"> Cash on Delivery</label>
+      <label><input type="radio" name="pay"> Card Payment</label>
+      <label><input type="radio" name="pay"> QR / UPI Scanner</label>
+      <button onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
+  <div id="orders" class="section hidden">
+    <h2>My Orders</h2>
+    <ul id="order-list"></ul>
+  </div>
+
+</div>
+
+<footer>© 2026 Preeti’s Clothes Store • Designed with ❤ by Pratibha Kengar</footer>
+
+<script>
+  // PRODUCTS DATA
+  const products=[
+    {n:'Floral Kurti',p:899,i:'https://images.pexels.com/photos/247322/pexels-photo-247322.jpeg?auto=compress&cs=tinysrgb&w=300',sizes:['s','m','l','xl']},
+    {n:'Designer Saree',p:2999,i:"https://images.pexels.com/photos/13162244/pexels-photo-13162244.jpeg?auto=compress&cs=tinysrgb&w=300"},
+    {n:'Maxi Dress',p:1599,i:"https://images.pexels.com/photos/18398578/pexels-photo-18398578.jpeg?auto=compress&cs=tinysrgb&w=300",sizes:['s','m','l','xl']},
+    {n:'Party Gown',p:2799,i:"https://images.pexels.com/photos/3258761/pexels-photo-3258761.jpeg?auto=compress&cs=tinysrgb&w=300",sizes:['s','m','l','xl']},
+    {n:'Women Blazer',p:2199,i:"https://images.pexels.com/photos/13190981/pexels-photo-13190981.jpeg?auto=compress&cs=tinysrgb&w=300",sizes:['s','m','l','xl']},
+    {n:'Elegant Skirt',p:1099,i:"https://images.pexels.com/photos/1217253/pexels-photo-1217253.jpeg?auto=compress&cs=tinysrgb&w=300"},
+    {n:'Casual Crop Top',p:799,i:'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Denim Casual Top',p:899,i:'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Graphic Tee Casual',p:599,i:'https://images.pexels.com/photos/907221/pexels-photo-907221.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Boho Chic Top',p:999,i:'https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Party Evening Dress',p:2499,i:'https://images.pexels.com/photos/1677040/pexels-photo-1677040.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Elegant Gown',p:2999,i:'https://images.pexels.com/photos/776671/pexels-photo-776671.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Casual Denim Top',p:799,i:'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Casual Graphic Tee',p:599,i:'https://images.pexels.com/photos/907221/pexels-photo-907221.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Boho Crop Top',p:899,i:'https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&w=300'},
+   
+    {n:'Casual White Top',p:749,i:'https://images.pexels.com/photos/2983465/pexels-photo-2983465.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Women Casual Outfit',p:1199,i:'https://images.pexels.com/photos/3769701/pexels-photo-3769701.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Casual Streetwear Set',p:1299,i:'https://images.pexels.com/photos/2983463/pexels-photo-2983463.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'mens hoodies',p:799,i:'https://images.pexels.com/photos/698465/pexels-photo-698465.jpeg?auto=compress&cs=tinysrgb&w=300'},
+
+    {n:'Elegant Evening Dress',p:2499,i:'https://images.pexels.com/photos/1677040/pexels-photo-1677040.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Champagne Party Gown',p:3299,i:'https://images.pexels.com/photos/6234211/pexels-photo-6234211.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Pink Formal Gown',p:2899,i:'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Blue Evening Gown',p:3399,i:'https://images.pexels.com/photos/10308997/pexels-photo-10308997.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Formal Black Dress',p:2599,i:'https://images.pexels.com/photos/905874/pexels-photo-905874.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Elegant Lace Gown',p:3699,i:'https://images.pexels.com/photos/1836149/pexels-photo-1836149.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'gray tshirt',p:200,i:'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Velvet Party Dress',p:2899,i:'https://images.pexels.com/photos/10309109/pexels-photo-10309109.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Denim Jacket With Top',p:1599,i:'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=300'},
+   
+    {n:'Boho Beach Top',p:999,i:'https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Casual Black Crop Top',p:899,i:'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Loose Casual Tunic',p:849,i:'https://images.pexels.com/photos/3769701/pexels-photo-3769701.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Summer Floral Top',p:799,i:'https://images.pexels.com/photos/907221/pexels-photo-907221.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'mens Casual Hoodie',p:1099,i:'https://images.pexels.com/photos/698465/pexels-photo-698465.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'white mens shirt',p:1199,i:'https://images.pexels.com/photos/3769710/pexels-photo-3769710.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Maxi Summer Dress',p:1299,i:'https://images.pexels.com/photos/1729973/pexels-photo-1729973.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Casual Jumpsuit',p:1499,i:'https://images.pexels.com/photos/2983467/pexels-photo-2983467.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Chic Denim Dress',p:1399,i:'https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Blue Evening Gown',p:3299,i:'https://images.pexels.com/photos/10308997/pexels-photo-10308997.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Champagne Gown',p:3399,i:'https://images.pexels.com/photos/6234211/pexels-photo-6234211.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Pink Formal Gown',p:2899,i:'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Sparkly Silver Dress',p:3799,i:'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Velvet Party Gown',p:3499,i:'https://images.pexels.com/photos/10309109/pexels-photo-10309109.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'black mens tshirt',p:3099,i:'https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    
+    {n:'Elegant mens jacket',p:3599,i:'https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'White Lace Dress',p:2999,i:'https://images.pexels.com/photos/1661471/pexels-photo-1661471.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'Off-Shoulder Party Dress',p:2799,i:'https://images.pexels.com/photos/1005410/pexels-photo-1005410.jpeg?auto=compress&cs=tinysrgb&w=300'},
+    {n:'printed mens shirt',p:3899,i:'https://images.pexels.com/photos/1841842/pexels-photo-1841842.jpeg?auto=compress&cs=tinysrgb&w=300'},
+  ];
+
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+  function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  if(id==='cart') renderCart();
+  if(id==='wishlist') renderWishlist();
+  if(id==='orders') renderOrders();
+}
+
+  function renderProducts(){
+  const list = document.getElementById('product-list');
+  list.innerHTML='';
+  products.forEach(p=>{
+    list.innerHTML+=`
+      <div class="card">
+        <img src="${p.i}">
+        <div class="info">
+          <h3>${p.n}</h3>
+          <p class="price">₹${p.p}</p>
+          <button onclick="addCart('${p.n}',${p.p})">Add to Cart</button>
+          <button onclick="addWish('${p.n}')">♡ Wishlist</button>
+        </div>
+      </div>`;
+  });
+}
+
+
+  
+
+/* ===== USER / GUEST ===== */
+let user = localStorage.getItem("user") || "guest";
+
+/* ===== CART (TEMP for guest) ===== */
+let guestCart = JSON.parse(localStorage.getItem("guestCart")) || [];
+let guestWishlist = JSON.parse(localStorage.getItem("guestWishlist")) || [];
+
+/* ===== ADD TO CART (SIZE + ADDRESS) ===== */
+function addCart(itemName, price){
+  const username = localStorage.getItem("user") || "guest";
+   const size = prompt("Enter size (S / M / L / XL):");
+  if(!size) return;
+
+  const address = prompt("Enter delivery address:");
+  if(!address) return;
+
+  fetch("http://127.0.0.1:5000/add_cart",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      username: username,
+      item: itemName,
+      price: price,
+      size: size
+  
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.success){
+      alert(itemName + " added to cart!");
+      renderCart();
+    }
+  })
+})
+    });
+  }
+/* ===== ADD WISHLIST ===== */
+function addWish(itemName){
+  const username = localStorage.getItem("user") || "guest";
+
+  fetch("http://127.0.0.1:5000/add_wishlist",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      username: username,
+      item: itemName
+    })
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.success){
+      alert(itemName + " added to wishlist!");
+    }
+      renderWishlist();
+    });
+  }
+
+
+/* ===== GUEST CART RENDER ===== */
+function renderGuestCart(){
+  const ul=document.getElementById("cart-items");
+  let total=0;
+  ul.innerHTML="";
+  guestCart.forEach(i=>{
+    total+=i.price;
+    ul.innerHTML+=`<li>${i.name} (${i.size}) - ₹${i.price}</li>`;
+  });
+  document.getElementById("total").innerText=total;
+}
+
+/* ===== PLACE ORDER ===== */
+function placeOrder(){
+  if(user==="guest"){
+    alert("Please login to place order");
+    return;
+  }
+
+  fetch("http://127.0.0.1:5000/place_order",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ username:user })
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.success){
+      alert("Order placed successfully!");
+
+      // 🔥 ORDER DETAILS SHOW
+      renderOrders(d.order);
+    } else {
+      alert(d.message);
+    }
+  })
+  .catch(err=>{
+    console.error(err);
+    alert("Order failed");
+  });
+}
+
+
+ function renderOrders(order){
+  const div = document.getElementById("orders");
+  div.innerHTML = `
+    <h3>Order Summary</h3>
+    <p><b>Order ID:</b> ${order.order_id}</p>
+    <p><b>Total:</b> ₹${order.total}</p>
+    <p><b>Discount:</b> ₹${order.discount}</p>
+    <p><b>Final Amount:</b> ₹${order.final}</p>
+    <p><b>Delivery Date:</b> ${order.delivery_date}</p>
+
+    <h4>Items</h4>
+    <ul>
+      ${order.items.map(i=>`
+        <li>
+          ${i.item} | Size: ${i.size} | ₹${i.price}<br>
+          <small>Address: ${i.address}</small>
+        </li>
+      `).join("")}
+    </ul>
+  `;
+}
+
+
+  function signup(){
+    const u=document.getElementById('signup-username').value;
+    const p=document.getElementById('signup-password').value;
+    if(!u||!p){alert('Fill all fields'); return;}
+    fetch('http://127.0.0.1:5000/signup',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({username:u,password:p})
+    }).then(r=>r.json())
+      .then(d=>{
+        if(d.success){ alert('Signup successful!'); localStorage.setItem('user',u); user=u; showSection('home'); updateUserInfo(); }
+        else alert(d.message);
+      });
+  }
+
+function login() {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+
+    if (!username || !password) {
+        alert("Please enter username and password");
+        return;
+    }
+
+    fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.message === 'Login successful!') {
+            localStorage.setItem('user', username);
+            user = username;                 // ✅ switch from guest to user
+            updateUserInfo();
+            alert("Login successful!");
+            showSection('home');
+        } else {
+            alert(data.message || "Invalid login");
+        }
+    })
+    .catch(() => alert("Server error"));
+}
+
+
+function logout() {
+    localStorage.removeItem('user');
+    user = "guest";              // ✅ guest user
+    updateUserInfo();
+    alert("Logged out");
+    showSection('home');
+}
+function getUser() {
+  return localStorage.getItem('user') || 'guest';
+}
+
+
+
+  function updateUserInfo(){
+    document.getElementById('user-info').innerText = user ? 'Logged in as '+user : 'Not logged in';
+  }
+
+  function searchProduct(v){
+  v=v.toLowerCase();
+  document.querySelectorAll('.card').forEach(c=>{
+    c.style.display=c.innerText.toLowerCase().includes(v)?'block':'none';
+  });
+}
+
+  renderProducts();
+  updateUserInfo();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
